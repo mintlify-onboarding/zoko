@@ -1,0 +1,1903 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ZOKO API",
+    "description": "",
+    "termsOfService": "https://www.zoko.io/legal",
+    "contact": { "name": "Zoko Development Team", "email": "contact@zoko.io" },
+    "version": "2.2.2",
+    "x-logo": {
+      "url": "https://zoko-static.s3.us-east-2.amazonaws.com/logo_api.jpeg"
+    }
+  },
+  "externalDocs": {
+    "description": "Swagger UI",
+    "url": "https://app.swaggerhub.com/apis-docs/Greenarrow/ZOKO_API_v2.0"
+  },
+  "servers": [
+    { "url": "https://chat.zoko.io/v2", "description": "PRODUCTION" },
+    {
+      "url": "https://chat.api.zoko.io/v2",
+      "description": "(NEW) PRODUCTION"
+    }
+  ],
+  "security": [{ "APIKeyAuth": [] }],
+  "tags": [
+    {
+      "name": "Account",
+      "description": "Resources to get account level information"
+    },
+    {
+      "name": "Agent Management",
+      "description": "Resources to manage agents and teams"
+    },
+    {
+      "name": "Customer",
+      "description": "Resources for customer information"
+    },
+    {
+      "name": "Customer Properties",
+      "description": "Resources for customer properties"
+    },
+    { "name": "Customer Tags", "description": "Resources for customer tags" },
+    { "name": "Message", "description": "Resources to manage messages" },
+    { "name": "Webhook", "description": "Resources to manage webhooks" }
+  ],
+  "paths": {
+    "/account/templates": {
+      "get": {
+        "tags": ["Account"],
+        "summary": "Get Message Templates",
+        "description": "Retrieve approved templates for the account",
+        "responses": {
+          "200": {
+            "description": "Approved template list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageTemplate"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/message": {
+      "post": {
+        "tags": ["Message"],
+        "summary": "Send Message",
+        "description": "Send message to customer on a specific channel",
+        "requestBody": {
+          "description": "Message data",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SendMessage" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Sent Message Details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SendMessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/message/{id}": {
+      "get": {
+        "tags": ["Message"],
+        "summary": "Get Message",
+        "description": "Retrieve message details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of message",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Message" }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Message"],
+        "summary": "Delete Message",
+        "description": "Delete a message\n> **Note:** Deletion is only from Zoko database and will not affect the actual message(s) at the customer's client application.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of message",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteMessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/message/{id}/history": {
+      "get": {
+        "tags": ["Message"],
+        "summary": "Get Message History",
+        "description": "Retrieve message delivery history",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of message",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message delivery history",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/message/batch": {
+      "delete": {
+        "tags": ["Message"],
+        "summary": "Delete Messages (bulk)",
+        "description": "Deletes a set of messages\n> **Note:** Deletion is only from Zoko database and will not affect the actual message(s) at the customer's client application.\n",
+        "requestBody": {
+          "description": "Messages to be deleted",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/BulkMessages" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Message deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteBulkMessageResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer": {
+      "get": {
+        "tags": ["Customer"],
+        "summary": "Get Customer List",
+        "description": "Retrieve customer list",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "page number ( for  pagination)",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "page size (for pagination)",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "channel",
+            "in": "query",
+            "description": "customer channel",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "string", "enum": ["whatsapp"] }
+          },
+          {
+            "name": "includeAssign",
+            "in": "query",
+            "description": "include assignment details. Default is false",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "boolean" }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "sort by field",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "enum": ["name", "lastIncomingMessageAt", "contactable"]
+            }
+          },
+          {
+            "name": "orderBy",
+            "in": "query",
+            "description": "ascending or descending order",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "string", "enum": ["asc", "desc"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/{id}": {
+      "get": {
+        "tags": ["Customer"],
+        "summary": "Get Customer",
+        "description": "Retrieve customer details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Customer" }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/{id}/messages": {
+      "delete": {
+        "tags": ["Customer"],
+        "summary": "Delete Messages",
+        "description": "Delete all messages for a customer. \n> **Note:** Deletion is only from Zoko database and will not affect the actual message(s) at the customer's client application.\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message(s) deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/{id}/properties": {
+      "get": {
+        "tags": ["Customer"],
+        "summary": "Customer Properties List",
+        "description": "List all properties of a customer. \n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer Properties List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerPropertyResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Customer"],
+        "summary": "Create Customer Property",
+        "description": "Create customer property \n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "description": "Property data",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CustomerProperty" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Create Customer Property",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/{id}/properties/{propertyId}": {
+      "get": {
+        "tags": ["Customer"],
+        "summary": "Get Customer Property",
+        "description": "Get customer property details\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "propertyId",
+            "in": "path",
+            "description": "ID of property",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get Customer Property Details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerPropertyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Customer"],
+        "summary": "Update Customer Property",
+        "description": "Update customer property details\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "propertyId",
+            "in": "path",
+            "description": "ID of property",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "description": "Property data",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CustomerProperty" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update Customer Property",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerPropertyResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Customer"],
+        "summary": "Delete Customer Property",
+        "description": "Delete customer property\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "propertyId",
+            "in": "path",
+            "description": "ID of property",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Customer Property",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/{id}/tags": {
+      "get": {
+        "tags": ["Customer"],
+        "summary": "List Customer Tags",
+        "description": "List all tags of a customer \n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Customer Tags List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Customer"],
+        "summary": "Update Customer Tags (Bulk)",
+        "description": "Update all tags of a customer. Replaces the existing list of tags with the provided list. \n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "description": "Tags List",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/body" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update Customer Tags List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerTagAddResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Customer"],
+        "summary": "Add Customer Tag",
+        "description": "Create Customer Tag \n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Add Customer Tag",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CustomerTagAddResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Customer"],
+        "summary": "Delete Customer Tag",
+        "description": "Delete tag of a customer. \n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          },
+          {
+            "name": "tag",
+            "in": "query",
+            "required": true,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Add Customer Tag",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/DeleteResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/customer/{id}/assign": {
+      "post": {
+        "tags": ["Customer"],
+        "summary": "Assign Customer",
+        "description": "Assign customer to an agent or team",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of customer",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "description": "customer assignment info",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/body_1" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Customer Assignment Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerAssignResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/{id}": {
+      "get": {
+        "tags": ["Agent Management"],
+        "summary": "Get Agent Details",
+        "description": "Retrieve agent details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID or email of the agent",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "includeTeams",
+            "in": "query",
+            "description": "should the response include teams where the agent is a member",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agent Details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Agent" }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Agent Management"],
+        "summary": "Update Agent",
+        "description": "Update an existing agent's role and availability\n",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID or email of the agent",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "description": "Agent Data",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Agent" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Updated agent details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Agent" }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/agents": {
+      "get": {
+        "tags": ["Agent Management"],
+        "summary": "Get Agents",
+        "description": "Retrieve agents list",
+        "parameters": [
+          {
+            "name": "includeTeams",
+            "in": "query",
+            "description": "should the response include teams where the agent is a member",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Agents List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/Agent" }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/agent/teams": {
+      "get": {
+        "tags": ["Agent Management"],
+        "summary": "Get Teams",
+        "description": "Retrieve teams list",
+        "parameters": [
+          {
+            "name": "includeAgents",
+            "in": "query",
+            "description": "should the response include agents of the team",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": { "type": "boolean" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Teams List",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TeamResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhook": {
+      "get": {
+        "tags": ["Webhook"],
+        "summary": "List Webhooks",
+        "description": "Retrieve all webhooks for the account",
+        "responses": {
+          "200": {
+            "description": "Active webhook list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WebhookResponse"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Webhook"],
+        "summary": "Create Webhook",
+        "description": "Create a new webhook\n",
+        "requestBody": {
+          "description": "Webhook data",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Webhook" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Created webhook details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhook/{id}": {
+      "get": {
+        "tags": ["Webhook"],
+        "summary": "Get Webhook",
+        "description": "Retrieve webhook details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of webhook",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Webhook details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Webhook"],
+        "summary": "Update Webhook",
+        "description": "Update webhook details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of webhook",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "requestBody": {
+          "description": "Webhook data. Check Webhook schema for details.",
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/Webhook" }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebhookResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Webhook"],
+        "summary": "Delete Webhook",
+        "description": "Delete an existing webhook",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of webhook",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": { "type": "string", "format": "uuid" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Webhook details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeleteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "4xx and 5xx errors",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ErrorModel" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Agent": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "agent id",
+            "format": "uuid"
+          },
+          "firstName": {
+            "type": "string",
+            "description": "first name of agent"
+          },
+          "lastName": { "type": "string", "description": "last name of agent" },
+          "email": { "type": "string", "description": "email of agent" },
+          "role": {
+            "type": "string",
+            "description": "role of the agent",
+            "enum": ["owner", "admin", "salesman"]
+          },
+          "active": {
+            "type": "boolean",
+            "description": "is the agent active?"
+          },
+          "available": { "type": "boolean" }
+        },
+        "description": "Agent response model"
+      },
+      "Contact": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "object",
+            "description": "contact name",
+            "properties": {
+              "prefix": { "type": "string" },
+              "firstName": { "type": "string" },
+              "middleName": { "type": "string" },
+              "lastName": { "type": "string" },
+              "suffix": { "type": "string" },
+              "formattedName": { "type": "string" }
+            }
+          },
+          "org": {
+            "type": "object",
+            "description": "contact organisation",
+            "properties": {
+              "company": { "type": "string" },
+              "department": { "type": "string" },
+              "title": { "type": "string" }
+            }
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "contact address",
+              "properties": {
+                "url": { "type": "string" },
+                "street": { "type": "string" },
+                "city": { "type": "string" },
+                "state": { "type": "string" },
+                "zip": { "type": "string" },
+                "countryCode": { "type": "string" },
+                "country": { "type": "string" }
+              }
+            }
+          },
+          "emails": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "contact email",
+              "properties": {
+                "email": { "type": "string" },
+                "type": { "type": "string" }
+              }
+            }
+          },
+          "phones": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "contact phone",
+              "properties": {
+                "phone": { "type": "string", "example": 919876543210 },
+                "type": { "type": "string", "example": "office" }
+              }
+            }
+          }
+        },
+        "description": "Whatsapp Contact Model"
+      },
+      "Customer": {
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "name": { "type": "string" },
+          "channels": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Customer_channels" }
+          },
+          "assignment": {
+            "$ref": "#/components/schemas/CustomerResponse_assignment"
+          }
+        },
+        "description": "Customer model"
+      },
+      "CustomerResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "customer ID",
+            "format": "uuid"
+          },
+          "name": { "type": "string", "description": "customer name" },
+          "channel": { "type": "string", "description": "customer channel" },
+          "channelId": {
+            "type": "string",
+            "description": "customer ID on channel (phone number on whatsapp)"
+          },
+          "lastIncomingMessageAt": {
+            "type": "number",
+            "description": "time of last message from the customer"
+          },
+          "contactable": {
+            "type": "boolean",
+            "description": "is the customer contactable from the application (inside the free messaging period for whatsapp)"
+          },
+          "assignment": {
+            "$ref": "#/components/schemas/CustomerResponse_assignment"
+          }
+        },
+        "description": "Customer Response"
+      },
+      "CustomerAssignResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "status": { "type": "string", "example": "200" },
+          "message": { "type": "string", "example": "customer assigned" },
+          "details": { "type": "string", "example": "customer assigned" }
+        },
+        "description": "Customer Assignment Response"
+      },
+      "CustomerProperty": {
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "type of property",
+            "enum": ["text", "image", "document", "video"]
+          },
+          "title": { "type": "string" },
+          "description": {
+            "type": "string",
+            "description": "details on the property"
+          },
+          "messages": {
+            "type": "array",
+            "description": "url(s) for type `image`, `document` and `video`. Text for type `text`",
+            "items": { "type": "string" }
+          },
+          "priority": {
+            "type": "integer",
+            "description": "order in which it should be displayed on the web app"
+          }
+        },
+        "description": "Customer property model"
+      },
+      "CustomerPropertyResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "entityType": { "type": "string", "enum": ["customer"] },
+          "entityId": { "type": "string", "format": "uuid" },
+          "type": {
+            "type": "string",
+            "enum": ["text", "image", "document", "video"]
+          },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "messages": { "type": "array", "items": { "type": "string" } },
+          "priority": { "type": "integer" }
+        },
+        "description": "Customer property response model"
+      },
+      "CustomerTagAddResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "status": { "type": "string", "example": "200" },
+          "message": { "type": "string", "example": "tag added" },
+          "details": {
+            "type": "string",
+            "example": "tag added for customer {{id}}"
+          }
+        },
+        "description": "Customer Tag Response"
+      },
+      "DeleteResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "status": { "type": "string", "example": "204" },
+          "message": { "type": "string", "example": "items(s) deleted" },
+          "details": { "type": "string", "example": "deleted items count - xx" }
+        },
+        "description": "Simple generic response for delete"
+      },
+      "DeleteMessageResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "id of the message",
+            "format": "uuid"
+          },
+          "status": {
+            "type": "string",
+            "description": "status of deletion",
+            "example": "message deleted"
+          },
+          "description": {
+            "type": "string",
+            "description": "details of deletion",
+            "example": "message {id} deleted"
+          }
+        },
+        "description": "Message delete response"
+      },
+      "DeleteBulkMessageResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "deleted": {
+            "type": "integer",
+            "description": "number of messages deleted",
+            "example": 43
+          },
+          "failed": {
+            "type": "integer",
+            "description": "number of messages failed",
+            "example": 7
+          },
+          "messages": {
+            "type": "array",
+            "description": "message deletion details",
+            "items": {
+              "$ref": "#/components/schemas/DeleteMessageResponse"
+            }
+          }
+        },
+        "description": "Bulk Message delate response"
+      },
+      "BulkMessages": {
+        "additionalProperties": false,
+        "required": ["messages"],
+        "properties": {
+          "messages": {
+            "maxItems": 50,
+            "minItems": 1,
+            "type": "array",
+            "description": "IDs of messages to be deleted",
+            "items": { "type": "string" }
+          }
+        },
+        "description": "Bulk messages list"
+      },
+      "ErrorModel": {
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "### \n[HttpStatus 4xx and 5xx](https://www.w3.org/Protocols/rfc2616/rfc2616-sec6.html#sec6.1.1)\n",
+            "example": 400
+          },
+          "type": {
+            "type": "string",
+            "example": "invalid_request_error",
+            "enum": [
+              "api_error",
+              "authentication_error",
+              "data_missing_error",
+              "invalid_request_error",
+              "rate_limit_error",
+              "validation_error"
+            ]
+          },
+          "message": { "type": "string", "example": "error details" },
+          "timestamp": { "type": "string", "format": "date-time" }
+        },
+        "description": "Error model for responses 4xx and 5xx"
+      },
+      "Message": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "system ID of message",
+            "format": "uuid"
+          },
+          "platformSenderId": {
+            "type": "string",
+            "description": "customer's social id. \n\nsender for incoming messages and recipient for outgoing messages \n\n*Please note that this is always the customer's number and never yours (you already know yours, don't you)*\n",
+            "example": "919998880000"
+          },
+          "platform": { "type": "string", "enum": ["whatsapp"] },
+          "platformTimestamp": { "type": "string", "format": "date-time" },
+          "direction": {
+            "type": "string",
+            "description": "direction of message\n\n`FROM_CUSTOMER` - incoming messages\n\n`FROM_STORE` - outgoing messages\n",
+            "enum": ["FROM_CUSTOMER", "FROM_STORE"]
+          },
+          "type": {
+            "type": "string",
+            "enum": ["text", "image", "document", "audio", "video", "template"]
+          },
+          "text": { "type": "string", "description": "message content" },
+          "fileUrl": {
+            "type": "string",
+            "description": "url of the media file",
+            "format": "uri"
+          },
+          "fileCaption": {
+            "type": "string",
+            "description": "caption of the media file"
+          },
+          "deliveryStatus": {
+            "type": "string",
+            "description": "last known delivery status of the message",
+            "enum": ["sent", "delivered", "read", "failed"]
+          },
+          "customer": { "$ref": "#/components/schemas/Message_customer" },
+          "attachments": { "$ref": "#/components/schemas/Message_customer" }
+        },
+        "description": "Message data model"
+      },
+      "MessageDeliveryStatus": {
+        "additionalProperties": false,
+        "properties": {
+          "deliveryChannel": { "type": "string", "example": "whatsapp" },
+          "happendAt": { "type": "string", "format": "date-time" },
+          "state": { "type": "string", "example": "delivered" },
+          "details": {
+            "$ref": "#/components/schemas/MessageDeliveryStatus_details"
+          }
+        },
+        "description": "Message delivery status"
+      },
+      "MessageTemplate": {
+        "additionalProperties": false,
+        "properties": {
+          "channel": { "type": "string", "enum": ["whatsapp"] },
+          "isRichTemplate": {
+            "type": "boolean",
+            "description": "is the template a rich media template?",
+            "example": false
+          },
+          "templateType": {
+            "type": "string",
+            "description": "type of the template\n\nUsed as `type` in [send message](#tag/Message/paths/~1message/post) for templates. Values are `template`, `richTemplate` or `buttonTemplate`\n"
+          },
+          "templateId": {
+            "type": "string",
+            "description": "template id approved by the respective channel.\n\nUsed as `templateId` in [send message](#tag/Message/paths/~1message/post) for templates\n",
+            "example": "greeting_01"
+          },
+          "templateLanguage": {
+            "type": "string",
+            "description": "template id approved by the respective channel.\n\nUsed as `templateLanguage` in [send message](#tag/Message/paths/~1message/post) for templates\n",
+            "example": "en"
+          },
+          "templateDesc": {
+            "type": "string",
+            "description": "template definition",
+            "example": "Good morning {{1}}. How may I help you today?"
+          },
+          "templateVariableCount": {
+            "type": "integer",
+            "description": "Number of placeholders for the template. \n\nArray size of `templateArgs` in  [send message](#tag/Message/paths/~1message/post)\n",
+            "example": 1
+          },
+          "active": {
+            "type": "boolean",
+            "description": "is the template active for API use?",
+            "example": true
+          }
+        },
+        "description": "Message template"
+      },
+      "SendMessage": {
+        "additionalProperties": false,
+        "required": ["channel", "recipient", "type"],
+        "properties": {
+          "channel": { "type": "string", "enum": ["whatsapp"] },
+          "recipient": {
+            "type": "string",
+            "description": "For channel whatsapp -> E.164 format without leading +",
+            "example": "919998880000"
+          },
+          "type": {
+            "type": "string",
+            "example": "template",
+            "enum": [
+              "text",
+              "image",
+              "document",
+              "audio",
+              "video",
+              "location",
+              "sticker",
+              "contacts",
+              "template",
+              "richTemplate",
+              "buttonTemplate"
+            ]
+          },
+          "message": {
+            "maxLength": 4096,
+            "minLength": 1,
+            "type": "string",
+            "description": "Content of the message.\n\ntype `text` - contains text content of the message\n\ntype `image`,`document`, `audio`, `video`, `sticker` - contains the file URL\n\ntype `location` - contains latitude and longitude in the format `<latitude>:<longitude>`\n\ntype `template`, `richTemplate`, `buttonTemplate`, `contacts` - field is NOT used\n"
+          },
+          "caption": {
+            "maxLength": 1024,
+            "minLength": 1,
+            "type": "string",
+            "description": "Describes the specified `image`, `video` or `document` media. Do not use with `audio` media.\n"
+          },
+          "templateId": {
+            "type": "string",
+            "description": "Template ID\n\nmandatory for message type `template`, `richTemplate` and `buttonTemplate`\n",
+            "example": "greeting"
+          },
+          "templateArgs": {
+            "minItems": 0,
+            "type": "array",
+            "description": "Template placeholder values in the same order as in the template. \n\nmandatory for message type `template`, `richTemplate` and `buttonTemplate`\n",
+            "items": { "type": "string", "example": "arg1" }
+          },
+          "templateLanguage": {
+            "type": "string",
+            "description": "Template Language\n\nLanguage is defaulted to `en` (English), if not provided\n\nmandatory for message type `template`,  `richTemplate` and `buttonTemplate` only if the template is not in default language `en`\n",
+            "example": "en"
+          },
+          "assign": {
+            "$ref": "#/components/schemas/SendMessage_assign",
+            "description": "If the customer (recipient) needs to be assigned to an agent\n"
+          },
+          "contacts": {
+            "type": "object",
+            "properties": {
+              "whatsappContacts": {
+                "type": "array",
+                "items": { "$ref": "#/components/schemas/Contact" }
+              }
+            },
+            "description": "Contacts array for message type `contacts`\n"
+          }
+        },
+        "description": "SendMessage model used as request body for sending messages"
+      },
+      "SendMessageResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "status": { "type": "string", "example": "202" },
+          "statusText": { "type": "string", "example": "Accepted" },
+          "messageId": { "type": "string", "format": "uuid" }
+        },
+        "description": "SendMessage model"
+      },
+      "TeamResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "team id",
+            "format": "uuid"
+          },
+          "name": { "type": "string", "description": "team name" },
+          "description": {
+            "type": "string",
+            "description": "team description"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "is the agent active?"
+          },
+          "memberCount": {
+            "type": "integer",
+            "description": "number of agents in the team"
+          }
+        },
+        "description": "Team response model"
+      },
+      "Webhook": {
+        "additionalProperties": false,
+        "required": ["events", "url"],
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://client.webhooklabs.com"
+          },
+          "events": {
+            "minItems": 1,
+            "type": "array",
+            "example": ["message:user:in", "message:delivery:update"],
+            "items": {
+              "type": "string",
+              "enum": [
+                "message:user:in",
+                "message:store:out",
+                "message:delivery:update"
+              ]
+            }
+          },
+          "challengeToken": {
+            "maxLength": 200,
+            "type": "string",
+            "description": "Challenge Token for the webhook",
+            "example": "client0_letmein"
+          }
+        },
+        "description": "Webhook input data"
+      },
+      "WebhookResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "url": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://client.webhooklabs.com"
+          },
+          "challengeToken": { "type": "string", "example": "CHALLENGE_TOKEN" },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "message:user:in",
+                "message:store:out",
+                "message:delivery:update"
+              ]
+            }
+          }
+        },
+        "description": "Webhook response data"
+      },
+      "inline_response_200": {
+        "type": "object",
+        "properties": {
+          "messageId": { "type": "string" },
+          "history": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MessageDeliveryStatus"
+            }
+          }
+        }
+      },
+      "inline_response_200_1": {
+        "properties": {
+          "currentPage": { "type": "integer", "description": "current page" },
+          "pageSize": { "type": "integer", "description": "page size" },
+          "totalPages": {
+            "type": "integer",
+            "description": "total number of pages available"
+          },
+          "totalCustomers": {
+            "type": "integer",
+            "description": "total number of customers"
+          },
+          "customers": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/CustomerResponse" }
+          }
+        }
+      },
+      "inline_response_200_2": {
+        "properties": {
+          "entityId": { "type": "string", "format": "uuid" },
+          "entityType": { "type": "string", "enum": ["customer"] },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string", "example": "high-value" }
+          }
+        }
+      },
+      "body": {
+        "properties": {
+          "tags": {
+            "type": "array",
+            "items": { "type": "string", "example": "tag1" }
+          }
+        }
+      },
+      "body_1": {
+        "properties": {
+          "id": { "type": "string", "description": "id of the customer" },
+          "assigneeId": {
+            "type": "string",
+            "description": "id of the agent / team"
+          },
+          "override": {
+            "type": "boolean",
+            "description": "Force assignment. Default is false and will skip assignment if the customer is already assigned"
+          }
+        }
+      },
+      "Customer_channels": {
+        "additionalProperties": false,
+        "properties": {
+          "channel": { "type": "string", "enum": ["whatsapp"] },
+          "scopeId": { "type": "string", "example": 919998880000 }
+        }
+      },
+      "CustomerResponse_assignment": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "id of agent / team",
+            "format": "uuid"
+          },
+          "name": { "type": "string", "description": "name of agent / team" },
+          "email": {
+            "type": "string",
+            "description": "email of the agent (only)"
+          },
+          "team": {
+            "type": "boolean",
+            "description": "is this an agent or team"
+          }
+        }
+      },
+      "Message_customer": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": { "id": { "type": "string", "format": "uuid" } }
+      },
+      "MessageDeliveryStatus_details": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": { "message": { "type": "string" } }
+      },
+      "SendMessage_assign": {
+        "additionalProperties": false,
+        "type": "object",
+        "properties": {
+          "assigneeId": { "type": "string", "description": "agent or team id" },
+          "override": {
+            "type": "boolean",
+            "description": "whether to force the assignment if there is an existing assignment"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "APIKeyAuth": {
+        "type": "apiKey",
+        "description": "Authentication is done via `apikey` provided for your account\n\nInclude the following in your request header\n```json\napikey: \"your_apikey_here\"\n```\n",
+        "name": "apikey",
+        "in": "header"
+      }
+    }
+  },
+  "x-readme": {
+    "explorer-enabled": true,
+    "proxy-enabled": true,
+    "samples-enabled": true
+  }
+}

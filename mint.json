@@ -1,0 +1,43 @@
+{
+  "name": "Zoko",
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "api": {
+    "baseUrl": "https://chat.zoko.io/v2"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#FF6937",
+    "light": "#FF875F",
+    "dark": "#FF6937"
+  },
+  "topbarCtaButton": {
+    "name": "Sign Up",
+    "url": "https://app.live.zoko.io/signup"
+  },
+  "topbarLinks": [
+    {
+      "name": "Sign In",
+      "url": "https://app.live.zoko.io/login"
+    }
+  ],
+  "anchors": [
+    {
+      "name": "",
+      "icon": "",
+      "url": ""
+    }
+  ],
+  "navigation": [
+    {
+      "group": "",
+      "pages": [""]
+    }
+  ],
+  "footerSocials": {
+    "twitter": "",
+    "linkedin": ""
+  }
+}
