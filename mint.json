@@ -64,6 +64,24 @@
             "api-reference/get-message-history",
             "api-reference/delete-messages-bulk"
           ]
+        },
+        {
+          "group": "Customer",
+          "pages": [
+            "customer/get-customer-list",
+            "customer/get-customer",
+            "customer/delete-messages",
+            "customer/customer-properties-list",
+            "customer/create-customer-property",
+            "customer/get-customer-property",
+            "customer/update-customer-property",
+            "customer/delete-customer-property",
+            "customer/list-customer-tags",
+            "customer/update-customer-tags-bulk",
+            "customer/add-customer-tag",
+            "customer/delete-customer-tag",
+            "customer/assign-customer"
+          ]
         }
       ]
     }
