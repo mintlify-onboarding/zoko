@@ -47,6 +47,25 @@
         "messaging-api/sending-a-message",
         "messaging-api/message-history"
       ]
+    },
+    {
+      "group": "API Reference",
+      "pages": [
+        {
+          "group": "Account",
+          "pages": ["api-reference/get-message-templates"]
+        },
+        {
+          "group": "Message",
+          "pages": [
+            "api-reference/send-message",
+            "api-reference/get-message",
+            "api-reference/delete-message",
+            "api-reference/get-message-history",
+            "api-reference/delete-messages-bulk"
+          ]
+        }
+      ]
     }
   ],
   "footerSocials": {
