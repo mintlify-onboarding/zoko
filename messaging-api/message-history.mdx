@@ -2,21 +2,23 @@
 title: "Message History"
 ---
 
-#### Get Message History
+### Get Message History
 
 Once you send a message, you can check the delivery details of the message using the [Get Message History](/reference/get%5Fmessage-id-history-1) API
 
-You would need the message `id` to get the message's history  
-  
-cURLJavaScriptPythonRuby
+You would need the message `id` to get the message's history
 
-`curl --request GET \
+<CodeGroup>
+
+```curl cURL
+curl --request GET \
   --url https://chat.zoko.io/v2/message/e202794d-15f6-487a-971b-5e2b6ea8a2a5/history \
   --header 'accept: application/json' \
   --header 'apikey: your-api-key-here'
-`
+```
 
-`const request = require('request');
+```java JavaScript
+const request = require('request');
 
 const options = {
   method: 'GET',
@@ -29,9 +31,10 @@ request(options, function (error, response, body) {
 
   console.log(body);
 });
-`
+```
 
-`import requests
+```python Python
+import requests
 
 url = "https://chat.zoko.io/v2/message/e202794d-15f6-487a-971b-5e2b6ea8a2a5/history"
 
@@ -43,9 +46,10 @@ headers = {
 response = requests.request("GET", url, headers=headers)
 
 print(response.text)
-`
+```
 
-`require 'uri'
+```ruby Ruby
+require 'uri'
 require 'net/http'
 require 'openssl'
 
@@ -61,4 +65,6 @@ request["apikey"] = 'your-api-key-here'
 
 response = http.request(request)
 puts response.read_body
-`
+```
+
+</CodeGroup>
