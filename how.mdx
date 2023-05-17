@@ -1,0 +1,36 @@
+---
+title: "Enough talk! Let's build one"
+---
+
+### Building a Webhook
+
+A webhook ends up looking like an API call, but in reverse. Rather than you calling the API and requesting data, the API is calling you to let you know something has happened. All services will require at least one thing: the URL, or endpoint, to send the payload to. 
+
+If you've ever built a REST API that your application or other apps use, you know nearly everything you need to get started.
+
+Here is a [sample code](https://bitbucket.org/zokoee/demos/src/master/webhooks-generic/) to get your started
+
+  
+> ### 📘
+> 
+> Before you dive in
+> 
+> If you want to test the shape of a webhook before building an application to consume it, you can use a service like [Requestbin](https://requestbin.com)
+
+### How to register a Webhook?
+
+Once you have built your webhook handler, you need to register it with Zoko to receive notifications
+
+2 ways to register a webhook
+
+* using the [Create Webhook API](/reference/post%5Fwebhook-1)
+* using the [Zoko Web Application](https://app.zoko.io "Grow your Business on WhatsApp")
+  
+  
+> ### 📘
+> 
+> Multiple events on the same webhook?
+> 
+> Yes, of course you can register your webhook to receive multiple events.
+> 
+> Make sure you check the `event` field of the message to differentiate the messages posted to your webhook.

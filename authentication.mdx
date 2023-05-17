@@ -1,0 +1,87 @@
+---
+title: "Authentication"
+description: "Zoko API authentication"
+---
+
+### API Key
+
+The ZOKO API uses API keys to authenticate requests. You can view and manage your API key in the Zoko Dashboard.
+
+The API key needs to passed as a header into every API call you make.  
+`apikey: 'your-api-key-here'`
+
+All API requests must be made over HTTPS.
+
+- Calls made over plain HTTP will fail.
+- API requests without authentication will also fail.
+
+<Warning>
+  Your API keys carry many privileges, so be sure to keep them confidential! Do
+  not share your secret API keys in publicly accessible areas such as GitHub,
+  client-side code, and so forth.
+</Warning>
+
+_Before you start using the API, make sure you have your API key ready. If you haven't received this yet, please contact our helpdesk._
+
+### Sample Code
+
+<CodeGroup>
+
+```curl cURL
+curl --request GET \
+  --url https://chat.zoko.io/v2/message/e202794d-15f6-487a-971b-5e2b6ea8a2a5/history \
+  --header 'accept: application/json' \
+  --header 'apikey: your-api-key-here'
+```
+
+```java JavaScript
+const request = require('request');
+
+const options = {
+  method: 'GET',
+  url: 'https://chat.zoko.io/v2/message/e202794d-15f6-487a-971b-5e2b6ea8a2a5/history',
+  headers: {accept: 'application/json', apikey: 'your-api-key-here'}
+};
+
+request(options, function (error, response, body) {
+  if (error) throw new Error(error);
+
+  console.log(body);
+});
+```
+
+```python Python
+import requests
+
+url = "https://chat.zoko.io/v2/message/e202794d-15f6-487a-971b-5e2b6ea8a2a5/history"
+
+headers = {
+    "accept": "application/json",
+    "apikey": "your-api-key-here"
+}
+
+response = requests.request("GET", url, headers=headers)
+
+print(response.text)
+```
+
+```ruby Ruby
+require 'uri'
+require 'net/http'
+require 'openssl'
+
+url = URI("https://chat.zoko.io/v2/message/e202794d-15f6-487a-971b-5e2b6ea8a2a5/history")
+
+http = Net::HTTP.new(url.host, url.port)
+http.use_ssl = true
+http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+request = Net::HTTP::Get.new(url)
+request["accept"] = 'application/json'
+request["apikey"] = 'your-api-key-here'
+
+response = http.request(request)
+puts response.read_body
+```
+
+</CodeGroup>

@@ -1,8 +1,8 @@
 {
   "name": "Zoko",
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/light.png",
+    "dark": "/logo/dark.png"
   },
   "api": {
     "baseUrl": "https://chat.zoko.io/v2"
@@ -25,19 +25,33 @@
   ],
   "anchors": [
     {
-      "name": "",
-      "icon": "",
-      "url": ""
+      "name": "API Reference",
+      "icon": "square-terminal",
+      "url": "api-reference"
+    },
+    {
+      "name": "Contact Us",
+      "icon": "phone-volume",
+      "url": "https://www.zoko.io/contact"
     }
   ],
   "navigation": [
     {
-      "group": "",
-      "pages": [""]
+      "group": "Introduction",
+      "pages": ["authentication"]
+    },
+    {
+      "group": "Messaging API",
+      "pages": [
+        "messaging-api/message-api",
+        "messaging-api/sending-a-message",
+        "messaging-api/message-history"
+      ]
     }
   ],
   "footerSocials": {
-    "twitter": "",
-    "linkedin": ""
+    "twitter": "https://twitter.com/zokoofficial",
+    "linkedin": "https://www.linkedin.com/company/zoko/",
+    "facebook": "https://www.facebook.com/getzoko/"
   }
 }

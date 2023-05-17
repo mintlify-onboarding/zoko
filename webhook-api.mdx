@@ -1,0 +1,64 @@
+---
+title: "Webhook API"
+description: "webhooks, webhooks everywhere!"
+---
+
+> ### 📘
+> 
+> GUIDE
+> 
+> If you are new to Webhooks, please do checkout our [Webhooks](/docs/webhooks) guide
+
+Using Webhook API you can
+
+* Register a webhook with Zoko [Create Webhook](/reference/post%5Fwebhook-1)
+* List all webhooks [List Webhooks](/reference/get%5Fwebhook-1)
+* Update an existing webhook [Update Webhook](/reference/put%5Fwebhook-id-1)
+* Delete an existing webhook [Delete Webhook](/reference/delete%5Fwebhook-id-1)
+  
+### Host & Path
+
+###### API Host 
+
+`https://chat.zoko.io
+`
+
+###### API Version
+
+Current version is `v2`
+
+###### API Path
+
+Message API path is `webhook`
+
+###### Complete Endpoint 
+
+{api-host}/{api-version}/{api-path}
+
+`https://chat.zoko.io/v2/webhook
+`
+
+### Content Type
+
+* POST requests require a "Content-Type: application/json" header
+* PUT requests require a "Content-Type: application/json" header
+* GET requests will return "Content-Type: application/json"
+
+### Response Codes
+
+Message API uses the following standard response codes.
+
+##### GET requests
+
+* 200 - Ok
+
+##### POST requests
+
+* 201 - Created
+* 202 - Accepted
+* 400 - Bad Request (the request data has issues)
+* 409 - Conflict
+
+##### DELETE requests
+
+* 204 - No Content

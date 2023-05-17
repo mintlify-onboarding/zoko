@@ -1,0 +1,42 @@
+---
+title: "Customer API"
+description: "Resources to get customer information"
+---
+
+Using Customer API you can
+
+* Get Customer List [Get Customer List](/reference/get%5Fcustomer-1)
+* Get Customer Details [Get Customer](/reference/get%5Fcustomer-id-1)
+* Delete Messages of a Customer [Delete Messages](/reference/delete%5Fcustomer-id-messages-1)
+* Manage Customer Properties [Customer Properties List](/reference/get%5Fcustomer-id-properties-1)
+* Manage Customer Tags [List Customer Tags](/reference/get%5Fcustomer-id-tags-1)
+  
+### Host & Path
+
+`https://chat.zoko.io/v2/customer
+`
+
+### Content Type
+
+* POST requests require a "Content-Type: application/json" header
+* PUT requests require a "Content-Type: application/json" header
+* GET requests will return "Content-Type: application/json"
+
+### Response Codes
+
+Message API uses the following standard response codes.
+
+##### GET requests
+
+* 200 - Ok
+
+##### POST requests
+
+* 201 - Created
+* 202 - Accepted
+* 400 - Bad Request (the request data has issues)
+* 409 - Conflict
+
+##### DELETE requests
+
+* 204 - No Content
