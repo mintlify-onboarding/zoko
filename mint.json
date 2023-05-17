@@ -68,19 +68,19 @@
         {
           "group": "Customer",
           "pages": [
-            "customer/get-customer-list",
-            "customer/get-customer",
-            "customer/delete-messages",
-            "customer/customer-properties-list",
-            "customer/create-customer-property",
-            "customer/get-customer-property",
-            "customer/update-customer-property",
-            "customer/delete-customer-property",
-            "customer/list-customer-tags",
-            "customer/update-customer-tags-bulk",
-            "customer/add-customer-tag",
-            "customer/delete-customer-tag",
-            "customer/assign-customer"
+            "api-reference/customer/get-customer-list",
+            "api-reference/customer/get-customer",
+            "api-reference/customer/delete-messages",
+            "api-reference/customer/customer-properties-list",
+            "api-reference/customer/create-customer-property",
+            "api-reference/customer/get-customer-property",
+            "api-reference/customer/update-customer-property",
+            "api-reference/customer/delete-customer-property",
+            "api-reference/customer/list-customer-tags",
+            "api-reference/customer/update-customer-tags-bulk",
+            "api-reference/customer/add-customer-tag",
+            "api-reference/customer/delete-customer-tag",
+            "api-reference/customer/assign-customer"
           ]
         }
       ]
