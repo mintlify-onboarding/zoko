@@ -1,24 +1,23 @@
 ---
-title: "So, what's a webhook?"
+title: "What is a Webhook"
 ---
 
-![822](/images/433a350-Untitled_Diagram_2.png "Untitled Diagram (2).png")
+<Frame caption="Typical flow for a webhook">
+  <img src="/images/433a350-Untitled_Diagram_2.png" />
+</Frame>
 
-Typical flow for a webhook
-  
-  
 ### What is a Webhook?
 
 Webhook is nothing but user-defined HTTP callbacks where you can receive event driven notifications from us. This way you can get real-time information as soon as it happens. That's the bedrock of building a robust 2-way communication system at your end.
 
 Webhook operates on the concept of _event reaction_ (don’t call me, I’ll call you if I have something new), and thus avoids the need for constant polling of the server-side application by the client-side application. Thus, rather than the client-side application constantly polling the server-side application to check for new events, the server-side application calls the client-side application (by invoking a client provided webhook URL) anytime the server-side has something new to report to the client.
 
-  
 ### How is it different from an API?
 
-In API calls the server-side application provides the client-side application with end-point URLs that the client-side application can call. 
+In API calls the server-side application provides the client-side application with end-point URLs that the client-side application can call.
 
-In case of Webhooks, it is the client-side application that provides the server-side application with a URL to call, and the server-side application calls that URL, when some relevant server-side event has occurred. So a webhook is simply an end-point URL provided by the client-side application to the server-side application. 
+In case of Webhooks, it is the client-side application that provides the server-side application with a URL to call, and the server-side application calls that URL, when some relevant server-side event has occurred. So a webhook is simply an end-point URL provided by the client-side application to the server-side application.
 
-`{ "url": "https://client.webhooklabs.com" }
-`
+```
+{ "url": "https://client.webhooklabs.com" }
+```

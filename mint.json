@@ -51,7 +51,25 @@
             "messaging-api/message-history"
           ]
         },
-        "messaging-api/customer-api"
+        "messaging-api/customer-api",
+        "messaging-api/agent-api",
+        "messaging-api/webhook-api"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": [
+        {
+          "group": "Webhooks",
+          "pages": [
+            "webhooks/webhooks",
+            "webhooks/what-is-a-webhook",
+            "webhooks/when-do-i-need-one",
+            "webhooks/enough-talk",
+            "webhooks/webhook-payload",
+            "webhooks/key-considerations"
+          ]
+        }
       ]
     },
     {

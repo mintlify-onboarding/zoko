@@ -1,0 +1,64 @@
+---
+title: "Webhook Payload by Event"
+---
+
+### Incoming Message
+
+```json JSON
+{
+  "customer": {
+    "id": "cbdf1a23-7e18-448f-94d9-6dd686452660",
+    "name": "greenaro"
+  },
+  "context": {
+    "parentId": "98715010-07b5-11eb-a35e-db336714636b",
+    "postback": "user_clicked_project_alpha_id_001932"
+  },
+  "customerName": "greenaro",
+  "deliveryStatus": "received",
+  "direction": "FROM_CUSTOMER",
+  "event": "message:user:in",
+  "id": "9be4e430-07b5-11eb-af7d-0242ac120005",
+  "platform": "WHATSAPP",
+  "platformSenderId": "+19259795451",
+  "platformTimestamp": "2020-10-06T09:23:34Z",
+  "senderName": "greenaro",
+  "text": "Project Alpha",
+  "type": "text"
+}
+```
+
+### Outgoing Message
+
+```json JSON
+{
+  "customer": {
+    "id": "cbdf1a23-7e18-448f-94d9-6dd686452660",
+    "name": "greenaro"
+  },
+  "customerName": "greenaro",
+  "deliveryStatus": "sent",
+  "direction": "FROM_STORE",
+  "event": "message:store:out",
+  "id": "cca8ed70-07b5-11eb-a35e-db336714636b",
+  "platform": "WHATSAPP",
+  "platformSenderId": "+19259795451",
+  "platformTimestamp": "2020-10-06T09:24:56Z",
+  "senderName": "greenaro",
+  "text": "greetings!",
+  "type": "text"
+}
+```
+
+### Delivery Update
+
+```json JSON
+{
+  "deliveryStatus": "accepted",
+  "event": "message:delivery:update",
+  "id": "98715010-07b5-11eb-a35e-db336714636b",
+  "platform": "WHATSAPP",
+  "platformSenderId": "+19259795451",
+  "platformTimestamp": "2020-10-06T09:23:28.654432Z"
+}
+```

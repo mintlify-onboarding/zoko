@@ -1,0 +1,34 @@
+---
+title: "When Do I Need One?"
+---
+
+### When do I need a Webhook?
+
+Let’s say you want Zoko to notify you whenever your account Whatsapp number receives a new message from a customer. In this case, if you register a webhook for the incoming message event, whenever a new message comes in to the your number, Zoko will call your URL with the message details, to let you know that a new message is available.
+
+Thus, using webhooks, **Zoko can notify you** of a relevant **event** (i.e. a new incoming message).
+
+### Supported Events
+
+Currently, 3 events are supported
+
+- `message:user:in` \- incoming messages from your customer
+- `message:store:out` \- outgoing messages you sent
+- `message:delivery:update` \- delivery updates on outgoing message
+
+<Frame caption="Events supported for webhook">
+  <img src="/images/dc9283e-Untitled_Diagram_5.png" />
+</Frame>
+
+### Situations that could use Webhook
+
+- integration of a custom chat bot
+- integration with your other systems. eg. CRM
+
+<Card title="Do you really need a webhook?" icon="book">
+  If you are using the [Zoko Web Application](https://app.zoko.io "Grow your
+  Business on WhatsApp") for 2-way communication, there isn't much use for a
+  webhook. Infact, depending on the size of your customer base, we would
+  recommend using the web application and its features before exploring doing
+  things on your own. You might be reinventing the wheel here.
+</Card>

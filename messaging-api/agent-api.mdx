@@ -1,0 +1,61 @@
+---
+title: "Agent API"
+description: "Resources to manage agents and teams"
+---
+
+Using Agent API you can
+
+- Assign Customer [Assign Customer](/api-reference/customer/assign-customer)
+- Get Agents of Store [Get Agents](/api-reference/agent-management/get-agents)
+- Get Teams of Store [Get Teams](/api-reference/agent-management/get-teams)
+- Get Agent Details [Get Agent Details](/api-reference/agent-management/get-agent-details)
+- Update Agent Details [Update Agent](/api-reference/update-agent)
+
+## Host & Path
+
+### API Host
+
+```
+https://chat.zoko.io
+```
+
+### API Version
+
+Current version is `v2`
+
+### API Path
+
+Message API path is `agent`
+
+### Complete Endpoint
+
+`{api-host}/{api-version}/{api-path}`
+
+```
+https://chat.zoko.io/v2/agent
+```
+
+## Content Type
+
+- POST requests require a "Content-Type: application/json" header
+- PUT requests require a "Content-Type: application/json" header
+- GET requests will return "Content-Type: application/json"
+
+### Response Codes
+
+Message API uses the following standard response codes.
+
+## GET requests
+
+- 200 - Ok
+
+##### POST requests
+
+- 201 - Created
+- 202 - Accepted
+- 400 - Bad Request (the request data has issues)
+- 409 - Conflict
+
+## DELETE requests
+
+- 204 - No Content

@@ -1,0 +1,35 @@
+---
+title: "Key Considerations"
+---
+
+Hopefully, by now, you would have created atleast one webhook and processed your messages. Let's get to some minor things that could cause unwarranted issues later.
+
+### Return a 200 status code quickly
+
+Zoko webhook expects a response from your callback endpoint as an acknowledgement of the message.
+
+Expected Response : **HTTP 200 OK**  
+Response within : **5 seconds**
+
+_Please note if either of them doesn't happen, it's treated as a message delivery failure and retry logic will be executed_
+
+<Card
+  title="What if my processing takes more that 5 seconds?"
+  icon="traffic-cone"
+>
+  Because properly acknowledging receipt of the webhook notification is so
+  important, your endpoint should return a 200 HTTP status code prior to any
+  complex logic that could cause a timeout.
+</Card>
+
+### Retry logic
+
+Zoko attempts to deliver your webhooks for up to **5** times with an exponential back off.
+
+If your endpoint has been deleted when we attempt a retry, future retries of that event will be prevented. However, if it was failing to return a success message (on time) you should still expect to see future retry attempts.
+
+### Disable Logic
+
+Zoko will attempt to notify you of a misconfigured endpoint via email if an endpoint has not responded with a 200 HTTP status code for multiple times in a row.
+
+After **6** consecutive failures, the webhook will be disabled.
