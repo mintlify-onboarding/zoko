@@ -43,9 +43,15 @@
     {
       "group": "Messaging API",
       "pages": [
-        "messaging-api/message-api",
-        "messaging-api/sending-a-message",
-        "messaging-api/message-history"
+        {
+          "group": "Message API",
+          "pages": [
+            "messaging-api/message-api",
+            "messaging-api/sending-a-message",
+            "messaging-api/message-history"
+          ]
+        },
+        "messaging-api/customer-api"
       ]
     },
     {
@@ -86,20 +92,20 @@
         {
           "group": "Agent Management",
           "pages": [
-            "api-reference/agent-management/customer/get-agent-details",
-            "api-reference/agent-management/customer/update-agent",
-            "api-reference/agent-management/customer/get-agents",
-            "api-reference/agent-management/customer/get-teams"
+            "api-reference/agent-management/get-agent-details",
+            "api-reference/agent-management/update-agent",
+            "api-reference/agent-management/get-agents",
+            "api-reference/agent-management/get-teams"
           ]
         },
         {
           "group": "Webhook",
           "pages": [
-            "api-reference/webhook/customer/list-webhooks",
-            "api-reference/webhook/customer/create-webhook",
-            "api-reference/webhook/customer/get-webhook",
-            "api-reference/webhook/customer/update-webhook",
-            "api-reference/webhook/customer/delete-webhook"
+            "api-reference/webhook/list-webhooks",
+            "api-reference/webhook/create-webhook",
+            "api-reference/webhook/get-webhook",
+            "api-reference/webhook/update-webhook",
+            "api-reference/webhook/delete-webhook"
           ]
         }
       ]
