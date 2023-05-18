@@ -82,6 +82,25 @@
             "api-reference/customer/delete-customer-tag",
             "api-reference/customer/assign-customer"
           ]
+        },
+        {
+          "group": "Agent Management",
+          "pages": [
+            "api-reference/agent-management/customer/get-agent-details",
+            "api-reference/agent-management/customer/update-agent",
+            "api-reference/agent-management/customer/get-agents",
+            "api-reference/agent-management/customer/get-teams"
+          ]
+        },
+        {
+          "group": "Webhook",
+          "pages": [
+            "api-reference/webhook/customer/list-webhooks",
+            "api-reference/webhook/customer/create-webhook",
+            "api-reference/webhook/customer/get-webhook",
+            "api-reference/webhook/customer/update-webhook",
+            "api-reference/webhook/customer/delete-webhook"
+          ]
         }
       ]
     }
