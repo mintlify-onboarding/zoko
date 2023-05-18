@@ -1,8 +1,8 @@
 {
+  "$schema": "https://mintlify.com/schema.json",
   "name": "Zoko",
   "logo": {
-    "light": "/logo/light.png",
-    "dark": "/logo/dark.png"
+    "light": "/logo/light.png"
   },
   "api": {
     "baseUrl": "https://chat.zoko.io/v2"
@@ -129,6 +129,10 @@
       ]
     }
   ],
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
+  },
   "footerSocials": {
     "twitter": "https://twitter.com/zokoofficial",
     "linkedin": "https://www.linkedin.com/company/zoko/",
