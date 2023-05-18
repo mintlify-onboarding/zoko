@@ -17,7 +17,7 @@ _Please checkout [Send Message](/reference/post%5Fmessage-1) reference section t
 
 <CodeGroup>
 
-```curl cURL
+```bash cURL
 curl --request POST \ --url https://chat.zoko.io/v2/message \ --header 'accept: application/json' \ --header 'content-type: application/json' \ --data '{"channel":"whatsapp","recipient":"919876543210", "type":"text","message":"Hi Greenaro,\nHow can I help you today?"]}' `
 ```
 
@@ -112,7 +112,7 @@ Here is a sample code to send a regular text template named **shipping_01** that
 
 <CodeGroup>
 
-```curl cURL
+```bash cURL
 curl --request POST \
   --url https://chat.zoko.io/v2/message \
   --header 'accept: application/json' \
@@ -207,7 +207,7 @@ Here is a sample code to send a rich template named **greeting_with_header_image
 - business name
 
 <CodeGroup>
-```curl cURL
+```bash cURL
 curl --request POST \
   --url https://chat.zoko.io/v2/message \
   --header 'accept: application/json' \
@@ -310,7 +310,7 @@ Here is a sample code to send a button template named **greet_with_options_01** 
 
 <CodeGroup>
 
-```curl cURL
+```bash cURL
 curl --request POST \
   --url https://chat.zoko.io/v2/message \
   --header 'accept: application/json' \
@@ -413,7 +413,7 @@ Interactive Button Message can have an optional header, a text body and an optio
 
 <CodeGroup>
 
-```curl cURL
+```bash cURL
 curl --request POST \
      --url https://chat.zoko.io/v2/message \
      --header 'Accept: application/json' \
@@ -551,7 +551,7 @@ List Messages are best for presenting several options, such as:
 - Choosing a recent order to repeat
 
 <CodeGroup>
-```curl cURL
+```bash cURL
 curl --request POST \
   --url https://chat.zoko.io/v2/message \
   --header 'accept: application/json' \
